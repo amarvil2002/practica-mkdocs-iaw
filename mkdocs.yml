@@ -1,8 +1,0 @@
-site_name: IAW
-
-nav:
-    - Principal: index.md
-    - Acerca de: about.md
-    - Practica 1: practica1.md
-
-theme: material
