@@ -4,5 +4,14 @@ nav:
     - Principal: index.md
     - Acerca de: about.md
     - Practica 1: practica1.md
+    - Practica 2: practica4.5.md
 
-theme: material
+theme:
+    name: material
+    font: 
+        text: Roboto Mono
+    language: es
+    icon:
+        logo: material/library-outline
+    features:
+        - header.autohide

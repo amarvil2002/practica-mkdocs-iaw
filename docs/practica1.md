@@ -46,11 +46,11 @@ phpinfo();
 ```
 En nuestro script vamos a copiar el archivo de prueba de PHP en /var/www/html ``cp ../php/index.php /var/www/html``. Una vez que ejecutemos nuestro script, si accedemos a nuestra dirección IP podremos comprobar que aparece la información de php.
 
-![](images/c2.png)
+![](images/practica1/c2.png)
 
 Lo último que vamos a hacer en este script será modificar el propietario y el grupo del directorio /var/www/html de forma recursiva, para que el usuario y grupo www-data puedan acceder a él ``chown -R www-data:www-data /var/www/html``. Este es el usuario con el que se ejecuta el servicio Apache. Una vez finalizado el script lo ejecutaremos en el terminal con ``sudo ./install_lamp.sh`` y comprobaremos que se ejecuta todo correctamente.
 
-![](images/c1.png)
+![](images/practica1/c1.png)
 
 ## Creación del script install_tools.sh
 En este script, para empezar, vamos a copiar las 10 primeras líneas del anterior script. También, en nuestro directorio scripts vamos a tener el archivo .env que guarda las variables que serán necesarias más adelante para las distintas bases de datos y demás. Vamos a importar este archivo y lo haremos con ``source .env``, en los archivos de está práctica no se ve el .env porque los hemos añadido en el archivo *.gitignore* para que no se puedan ver la información privada de ese archivo, en cambio, tenemos el *.env.example* que tendra el nombre de las variables pero no la información.
@@ -78,7 +78,7 @@ Una vez se automatize esto, procederemos a la instalación de phpMyAdmin ``apt i
 
 A través de nuestra IP podremos acceder a phpmyadmin aunque todavía no tendremos creada ninguna base de datos ni usuario.
 
-![](images/c3.png)
+![](images/practica1/c3.png)
 
 ### Instalación de adminer
 
@@ -99,12 +99,12 @@ mysql -u root <<< "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%'"
 ```
 Se van a usar las variables configuradas en el archivo *.env*. La creación de esta base de datos va a servir para poder acceder con un usuario y una contraseña a las herramientas que hemos instalado previamente. Por ejemplo, ya podemos acceder a la base de datos en phpMyAdmin.
 
-![](images/c4.png)
+![](images/practica1/c4.png)
 
 Para acceder a Adminer, habrá que acceder con nuestra IP/adminer y podremos introducir el usuario, la contraseña y la base de datos que vamos a utilizar.
 
-![](images/c5.png)
-![](images/c6.png)
+![](images/practica1/c5.png)
+![](images/practica1/c6.png)
 
 ### Instalación de GoAccess
 La siguiente herramienta a instalar será un analizador de logs para Apache Server llamado GoAccess. Para su instalación, habrá que incluir en nuestro script *install_tools.sh* el comando ``apt install goaccess -y``. Una vez que hemos instalado la utilidad podemos usarla para procesar los archivos de log access.log de Apache HTTP Server. Queremos tener en nuestro script un comando que parsea el archivo de log access.log y genera un archivo HTML en tiempo real. Pero antes de añadir este comando se va a crear un directorio llamado stats dentro del directorio /var/www/html donde se podrán consultar los informes generados con goaccess. El acceso a este directorio va a estar controlado y solo se podrá acceder mediante un usuario y una contraseña. En nuestro script añadimos ``mkdir -p /var/www/html/stats`` para crear el directorio *stats* y ejecutamos GoAccess en segundo plano ``goaccess /var/log/apache2/access.log -o /var/www/html/stats/index.html --log-format=COMBINED --real-time-html --daemonize`` que hará lo que ya he comentado anteriormente y para generar el archivo HTML en tiempo real es necesario abrir el puerto 7890 en el firewall de nuestra instancia.
@@ -174,6 +174,6 @@ Require valid-user
 
 Vamos a copiar el *.htaccess* dentro del directorio que queremos proteger con usuario y contraseña, que será /var/www/html/stats ``cp ../conf/.htaccess /var/www/html/stats``. Ya terminado el script, vamos a lanzarlo con ``sudo ./install_tools.sh`` y comprobaremos que funciona correctamente. Accederemos a nuestra IP/stats para comprobar si funciona en tiempo real.
 
-![](images/c7.png)
-![](images/c8.png)
-![](images/c9.png)
+![](images/practica1/c7.png)
+![](images/practica1/c8.png)
+![](images/practica1/c9.png)
